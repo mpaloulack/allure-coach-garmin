@@ -1893,7 +1893,7 @@ async function lapsFor(date){
  const d=plain(sn.data());const num=l=>({m:+l.m||0,t:+l.t||0,p:+l.p||0,hr:+l.hr||0,mx:+l.mx||0,up:+l.up||0});
  const L={seg:(d.seg||[]).map(num),km:(d.km||[]).map(num)};if(!L.seg.length&&!L.km.length)throw{code:"nolaps"};
  const f=d.feel&&d.feel.lvl?{raw:d.feel.raw||"",lvl:Math.max(1,Math.min(5,+d.feel.lvl|0)),fr:d.feel.fr||""}:null;
- return{laps:L,detail:{feel:f,load:+d.load||null,aTE:d.aTE||null,anTE:d.anTE||null,focus:d.focus||null}};
+ return{laps:L,detail:{feel:f,load:+d.load||null,aTE:d.aTE||null,anTE:d.anTE||null,focus:d.focus||null,lapsAt:d.at||""}};
 }
 function judge(st,lap){
  if(!st.intensityType||!lap)return null;
@@ -1961,8 +1961,10 @@ function reviewErr(e){const c=e&&e.code;return c==="nodb"?"Ouvre le dashboard da
 async function mountReview(s,hostId){
  const host=document.getElementById(hostId);if(!host)return;
  if(!isDone(s)){host.innerHTML="";return}
- if(REVIEWS[s.id]&&REVIEWS[s.id].feel!==undefined){paintRv(REVIEWS[s.id]);return}
- if(REVIEWS[s.id]){paintRv(REVIEWS[s.id]);run(true);return}
+ if(REVIEWS[s.id]){paintRv(REVIEWS[s.id]);
+  /* tours réécrits par Claude depuis le dernier bilan : on recalcule */
+  if(DB)DB.doc("laps/"+s.date).get().then(sn=>{const at=sn.exists?escT(sn.data().at||""):"";if(at!==(REVIEWS[s.id].lapsAt||""))run(true)}).catch(()=>{});
+  return}
  host.innerHTML=`<h4 class="rv-title">Bilan de la séance</h4><p class="mv-hint">Analyse des tours de ta montre…</p>`;
  run(false);
  function paintRv(rv){host.innerHTML=`<h4 class="rv-title">Bilan de la séance</h4>`+reviewHTML(rv)+noteHTML(s)+`<button type="button" class="chip rv-re">Recalculer</button>`;host.querySelector(".rv-re").onclick=()=>run(true);wireNote(s,host)}
