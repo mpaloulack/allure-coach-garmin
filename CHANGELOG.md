@@ -1,5 +1,15 @@
 # Historique des versions
 
+## garmin-1.0.0 · 2026-11-15
+
+Fork pour Garmin, en lecture seule.
+
+- Données Garmin lues par Claude et écrites dans la base de l'artifact (`sync/latest`, `laps/<date>`) ; la page n'a plus aucun accès à la montre.
+- Plus d'envoi du plan sur la montre : le plan vit dans le dashboard.
+- Bilan de séance calculé à partir des tours écrits par Claude, ressenti d'après le RPE Garmin.
+- Sécurité : échappement de tout texte affiché, injection du COACH sécurisée (`kit/inject-coach.py`), plus de coordonnées GPS des sorties (météo à la ville), plus de Google Fonts.
+- Démo régénérée (`exemples/build-demo.py`).
+
 ## 1.0.0 · 2026-10-13
 
 Première version publique.
