@@ -126,7 +126,7 @@ Le dashboard crée lui-même d'autres documents dans la base : `plan/state` (sé
 {
  "athlete":{"name":"Prénom"},
  "meta":{"id":"foulees-port-2026","name":"Objectif Foulées du Port","race":["Foulées du","Port"],"place":"Ville-Exemple","distance":10,"distLabel":"10 km",
-         "raceDate":"2026-04-05","goal":"52:00","start":"2026-03-02","end":"2026-04-05","ref":{"label":"Dernier 10 km","time":"54:30"},"source":"Claude · plan sur Coros","status":"active"},
+         "raceDate":"2026-04-05","goal":"52:00","start":"2026-03-02","end":"2026-04-05","ref":{"label":"Dernier 10 km","time":"54:30"},"source":"Claude · plan sur Garmin","status":"active"},
  "calib":{"label":"FC seuil 168 · FC max ≈ 186 · seuil 5'20/km","lthr":168,"hrmax":186,"thr":"5:20","zoneBounds":[142,149,157,168],
           "footCap":146,"aeroHr":141,"aeroRef":345,"aeroRefLabel":"repère marathon en 4h","note":"Texte libre affiché dans Profil (par ex. une FC max saisie à la main et périmée)."},
  "zones":[{"z":"Z1 · Récup","fc":"< 142","p":"> 6'30","u":"Footings de récup","c":"--s-footing","o":0.45},
