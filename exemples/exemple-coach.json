@@ -24,7 +24,7 @@
    "label": "Dernier 10 km",
    "time": "54:30"
   },
-  "source": "Claude · plan sur Coros",
+  "source": "Claude · plan dans le dashboard",
   "status": "active"
  },
  "calib": {
@@ -42,7 +42,7 @@
   "aeroHr": 141,
   "aeroRef": 345,
   "aeroRefLabel": "repère 4h30 au marathon",
-  "note": "Exemple : la FC max saisie à la main dans COROS (190) est une ancienne valeur, elle n'est pas utilisée ici."
+  "note": "Exemple : la FC max saisie à la main dans Garmin Connect (190) est une ancienne valeur, elle n'est pas utilisée ici."
  },
  "zones": [
   {
@@ -117,7 +117,7 @@
   {
    "level": "info",
    "title": "52 minutes, c'est ambitieux",
-   "text": "5'12/km, c'est 8 secondes sous ton dernier 10 km (5'25) et proche de ta prédiction COROS (5'20). Jouable sur un parcours plat avec un bon affûtage."
+   "text": "5'12/km, c'est 8 secondes sous ton dernier 10 km (5'25) et proche de ta prédiction Garmin (5'20). Jouable sur un parcours plat avec un bon affûtage."
   },
   {
    "level": "good",
@@ -144,7 +144,7 @@
   ],
   [
    "Allures VDOT (Daniels)",
-   "Ton seuil COROS à 5'20 donne : seuil 5'15–5'25, intervalles 4'50–4'58, répétitions 4'38–4'45."
+   "Ton seuil lactique Garmin à 5'20 donne : seuil 5'15–5'25, intervalles 4'50–4'58, répétitions 4'38–4'45."
   ],
   [
    "Zones sur la FC au seuil (Friel)",
@@ -171,7 +171,7 @@
    "5 km",
    "26:10",
    "Parkrun",
-   "record COROS",
+   "record Garmin",
    false
   ],
   [
@@ -2358,8 +2358,12 @@
   ],
   "rec": {
    "pct": 88,
-   "level": "Heavy training allowed"
+   "level": "Prêt pour un entraînement intense"
   },
   "syncedAt": 0
- }
+ },
+ "wxGeo": [
+  47.2,
+  -1.6
+ ]
 }
