@@ -1,4 +1,4 @@
-/* Recale les dates de l'exemple sur la semaine en cours (démo uniquement). */
+/* Shifts the example's dates to the current week (demo only). */
 (function(raw){
  const D=864e5,pad=n=>String(n).padStart(2,"0");
  const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate(),12);

@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Démo · allure-coach-garmin</title>
+<title>Demo · allure-coach-garmin</title>
 <style>
 /* Layout: one column on phone, two-column grid ≥ 900px. Hero = race bib, then forme du jour, plan, charts, zones. */
 :root{
@@ -815,7 +815,7 @@ function dec(s){return String(s==null?"":s).replace(/&(amp|lt|gt|quot|#39);/g,(m
 function escT(s){return dec(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c])}
 function clean(o){if(typeof o==="string")return escT(o);if(Array.isArray(o))return o.map(clean);
  if(o&&typeof o==="object"){const r={};for(const k of Object.keys(o))r[escT(k)]=clean(o[k]);return r}return o}
-const COACH=clean(/*COACH_DATA_START*//* Recale les dates de l'exemple sur la semaine en cours (démo uniquement). */
+const COACH=clean(/*COACH_DATA_START*//* Shifts the example's dates to the current week (demo only). */
 (function(raw){
  const D=864e5,pad=n=>String(n).padStart(2,"0");
  const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate(),12);
@@ -1910,7 +1910,7 @@ async function lapsFor(date){
  const d=plain(sn.data());const num=l=>({m:+l.m||0,t:+l.t||0,p:+l.p||0,hr:+l.hr||0,mx:+l.mx||0,up:+l.up||0});
  const L={seg:(d.seg||[]).map(num),km:(d.km||[]).map(num)};if(!L.seg.length&&!L.km.length)throw{code:"nolaps"};
  const f=d.feel&&d.feel.lvl?{raw:d.feel.raw||"",lvl:Math.max(1,Math.min(5,+d.feel.lvl|0)),fr:d.feel.fr||""}:null;
- return{laps:L,detail:{feel:f,load:+d.load||null,aTE:d.aTE||null,anTE:d.anTE||null,focus:d.focus||null}};
+ return{laps:L,detail:{feel:f,load:+d.load||null,aTE:d.aTE||null,anTE:d.anTE||null,focus:d.focus||null,lapsAt:d.at||""}};
 }
 function judge(st,lap){
  if(!st.intensityType||!lap)return null;
@@ -1978,8 +1978,10 @@ function reviewErr(e){const c=e&&e.code;return c==="nodb"?"Ouvre le dashboard da
 async function mountReview(s,hostId){
  const host=document.getElementById(hostId);if(!host)return;
  if(!isDone(s)){host.innerHTML="";return}
- if(REVIEWS[s.id]&&REVIEWS[s.id].feel!==undefined){paintRv(REVIEWS[s.id]);return}
- if(REVIEWS[s.id]){paintRv(REVIEWS[s.id]);run(true);return}
+ if(REVIEWS[s.id]){paintRv(REVIEWS[s.id]);
+  /* tours réécrits par Claude depuis le dernier bilan : on recalcule */
+  if(DB)DB.doc("laps/"+s.date).get().then(sn=>{const at=sn.exists?escT(sn.data().at||""):"";if(at!==(REVIEWS[s.id].lapsAt||""))run(true)}).catch(()=>{});
+  return}
  host.innerHTML=`<h4 class="rv-title">Bilan de la séance</h4><p class="mv-hint">Analyse des tours de ta montre…</p>`;
  run(false);
  function paintRv(rv){host.innerHTML=`<h4 class="rv-title">Bilan de la séance</h4>`+reviewHTML(rv)+noteHTML(s)+`<button type="button" class="chip rv-re">Recalculer</button>`;host.querySelector(".rv-re").onclick=()=>run(true);wireNote(s,host)}

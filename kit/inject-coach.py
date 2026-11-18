@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Injecte un objet COACH (JSON) dans le modèle du dashboard, sans casser la balise <script>.
+"""Inject a COACH object (JSON) into the dashboard template without breaking the <script> tag.
 
-Usage : python3 -I kit/inject-coach.py kit/coach-dashboard-template.html coach.json sortie.html "Objectif Foulées du Port"
+Usage: python3 -I kit/inject-coach.py kit/coach-dashboard-template.html coach.json output.html "Goal: Harbour 10K"
 
-- `</` devient `<\\/` et U+2028/U+2029 sont échappés : un nom d'activité ou un texte copié du web
-  ne peut pas fermer la balise <script> et exécuter du code.
-- Vérifie la syntaxe du script final avec node s'il est installé.
+- `</` becomes `<\\/` and U+2028/U+2029 are escaped: an activity name or text copied from the web
+  cannot close the <script> tag and run code.
+- Checks the syntax of the final script with node, if installed.
 """
 import html, json, re, shutil, subprocess, sys, tempfile
 
@@ -20,11 +20,11 @@ def main() -> int:
     tpl = open(tpl_path, encoding="utf-8").read()
     coach = json.load(open(coach_path, encoding="utf-8"))
     if not isinstance(coach, dict):
-        sys.exit("COACH doit être un objet JSON")
+        sys.exit("COACH must be a JSON object")
     data = (json.dumps(coach, ensure_ascii=False, separators=(",", ":"))
             .replace("</", "<\\/").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"))
     if tpl.count(START + "{}" + END) != 1:
-        sys.exit("marqueurs COACH introuvables (le modèle a déjà été rempli ?)")
+        sys.exit("COACH markers not found (was the template already filled in?)")
     page = tpl.replace(START + "{}" + END, START + data + END)
     page = page.replace("<title>Coach course</title>", "<title>" + html.escape(title[:60]) + "</title>", 1)
     if shutil.which("node"):
@@ -34,9 +34,9 @@ def main() -> int:
         r = subprocess.run(["node", "-e", "new Function(require('fs').readFileSync(process.argv[1],'utf8'))", f.name],
                            capture_output=True, text=True)
         if r.returncode:
-            sys.exit("erreur de syntaxe dans le script :\n" + r.stderr[-800:])
+            sys.exit("syntax error in the script:\n" + r.stderr[-800:])
     open(out_path, "w", encoding="utf-8").write(page)
-    print(f"OK : {out_path} ({len(page) // 1024} Ko)")
+    print(f"OK: {out_path} ({len(page) // 1024} KB)")
     return 0
 
 
