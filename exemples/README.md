@@ -1,12 +1,12 @@
-# Exemples
+# Examples
 
-- `exemple-coach.json` : l'objet `COACH` d'un athlète **fictif** (Camille, 10 km, objectif 52:00). Sert de modèle de remplissage : chaque champ du schéma de `kit/GUIDE-CLAUDE.md` y apparaît. Le champ `_demo` n'est lu que par la démo.
-- `demo.html` : le dashboard rempli avec cet exemple. Ouvre-le dans ton navigateur. Il ne se connecte à rien, les dates se calent sur la semaine en cours. Fichier généré : ne le modifie pas à la main.
+- `exemple-coach.json`: the `COACH` object of a **fictional** athlete (Camille, 10 km, goal 52:00). It serves as a filling template: every field of the schema in `kit/GUIDE-CLAUDE.md` appears in it. The `_demo` field is only read by the demo.
+- `demo.html`: the dashboard filled with this example. Open it in your browser. It connects to nothing, and the dates are shifted to the current week. Generated file: don't edit it by hand.
 
-Pour le régénérer après avoir modifié le modèle ou l'exemple :
+To regenerate it after changing the template or the example:
 
 ```
 python3 -I exemples/build-demo.py
 ```
 
-L'exemple ne touche jamais à un vrai projet : il ne passe ni par un artifact ni par ta base de données, seulement par ce dossier.
+The example never touches a real project: it goes through neither an artifact nor your database, only through this folder.

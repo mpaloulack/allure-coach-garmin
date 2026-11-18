@@ -1,25 +1,25 @@
-# Sécurité et vie privée
+# Security and privacy
 
-Ce fork traite des données de santé (FC, VFC, sommeil, douleurs signalées) et d'activité. Voici ce qu'il fait pour les protéger, et ce qui reste à ta charge.
+This fork handles health and activity data (heart rate, HRV, sleep, reported pain). Here is what it does to protect them, and what remains your responsibility.
 
-## Choix de conception
+## Design choices
 
-| Risque | Dans l'original (COROS) | Dans ce fork |
+| Risk | In the original (COROS) | In this fork |
 |---|---|---|
-| La page modifie la montre | la page peut appeler `updateTrainingPlan` | la page n'a aucun accès à Garmin ; Claude n'utilise que des outils de lecture |
-| Injection HTML (XSS) via un nom d'activité, une note, une demande de plan ou un texte copié d'un site de course | texte inséré sans échappement (`innerHTML`) | tout texte est échappé à l'entrée (`clean()`), y compris les données relues dans la base |
-| Fermeture de la balise `<script>` par un texte du COACH | non traité | `inject-coach.py` échappe `</` et U+2028/2029 et vérifie la syntaxe |
-| Localisation du domicile | coordonnées de départ de chaque sortie, arrondies à ~1 km, stockées en base | aucune coordonnée de sortie ; une position fixe de la ville (`wxGeo`, arrondie à 0,1°) pour la météo |
-| Fuite d'IP au chargement | Google Fonts | polices système, aucune ressource externe au chargement |
-| Injection d'instructions dans Claude (un nom d'activité ou une note qui « donne des ordres ») avec un outil d'écriture en « Toujours autoriser » | conseillé dans le README | le guide traite ces textes comme des données, et il n'y a plus d'outil d'écriture Garmin |
+| The page modifies the watch | the page can call `updateTrainingPlan` | the page has no access to Garmin; Claude only uses read tools |
+| HTML injection (XSS) through an activity name, a note, a plan request or text copied from a race website | text inserted without escaping (`innerHTML`) | all text is escaped on the way in (`clean()`), including data read back from the database |
+| A COACH text closing the `<script>` tag | not handled | `inject-coach.py` escapes `</` and U+2028/2029 and checks the syntax |
+| Locating your home | start coordinates of every run, rounded to ~1 km, stored in the database | no run coordinates; a fixed city position (`wxGeo`, rounded to 0.1°) for the weather |
+| IP leak at load time | Google Fonts | system fonts, no external resource at load |
+| Instruction injection into Claude (an activity name or a note that "gives orders") with a write tool set to "Always allow" | recommended in the README | the guide treats these texts as data, and there is no Garmin write tool any more |
 
-## Ce qui reste à ta charge
+## What remains your responsibility
 
-- **Le lien du dashboard** : l'artifact est privé, mais toute personne qui a le lien voit tes données. Ne le partage pas, ne le colle pas dans une issue.
-- **Le connecteur Garmin** : il a accès à tout ton compte Garmin Connect. Choisis-en un de confiance, **fige sa version** (pas de `@latest` lancé automatiquement) et garde ses jetons dans un fichier lisible par toi seul (`chmod 600`). Active la double authentification sur ton compte Garmin.
-- **Les permissions** : n'autorise que les outils de lecture du connecteur ; n'en passe aucun en « Toujours autoriser » s'il peut écrire.
-- **Les mises à jour du kit** : relis les changements du modèle HTML avant de le remplacer.
+- **The dashboard link**: the artifact is private, but anyone who has the link sees your data. Don't share it, don't paste it into an issue.
+- **The Garmin connector**: it has access to your whole Garmin Connect account. Pick one you trust, **pin its version** (no automatically launched `@latest`) and keep its tokens in a file readable only by you (`chmod 600`). Turn on two-factor authentication on your Garmin account.
+- **Permissions**: only allow the connector's read tools; never set a tool to "Always allow" if it can write.
+- **Kit updates**: read the changes to the HTML template before replacing it.
 
-## Signaler un problème
+## Reporting a problem
 
-Ouvre une issue sans données personnelles (ni nom, ni FC, ni position, ni lien de dashboard).
+Open an issue without personal data (no name, heart rate, location or dashboard link).

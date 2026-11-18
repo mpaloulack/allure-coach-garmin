@@ -33,7 +33,7 @@ Open [`exemples/demo.html`](exemples/demo.html) in your browser (download the fi
 
 1. Create a project in Claude, for example "Running".
 2. Add the files from [`kit/`](kit): `GUIDE-CLAUDE.md`, `coach-dashboard-template.html` and `inject-coach.py`.
-3. Write: **"Lance le kit coach course"** (the guide is in French; Claude answers in your language).
+3. Write: **"Start the running coach kit"**. Claude answers in your language. The dashboard interface itself is currently in French.
 4. Answer the questions (race, date, goal, days available, training city). Claude shows your zones, its diagnosis and the plan, then publishes the dashboard.
 5. To refresh the data: **"update my coach"** (or a daily scheduled task).
 

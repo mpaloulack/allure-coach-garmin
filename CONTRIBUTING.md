@@ -1,22 +1,22 @@
-# Contribuer
+# Contributing
 
-Merci de ton intérêt. Quelques règles pour garder le dépôt propre.
+Thanks for your interest. A few rules to keep the repository clean.
 
-## Avant d'ouvrir une issue
+## Before opening an issue
 
-- Précise la version du kit (voir [`CHANGELOG.md`](CHANGELOG.md)), quel connecteur Garmin tu utilises, si Open-meteo est connecté, et ce que tu as fait juste avant le problème.
-- **Retire toute donnée personnelle** : prénom, FC, lieu, dates de course, lien de ton dashboard. Une capture d'écran de la démo (`exemples/demo.html`) suffit souvent.
+- State the kit version (see [`CHANGELOG.md`](CHANGELOG.md)), which Garmin connector you use, whether Open-meteo is connected, and what you did just before the problem.
+- **Remove all personal data**: first name, heart rate, place, race dates, your dashboard link. A screenshot of the demo (`exemples/demo.html`) is often enough.
 
-## Proposer un changement
+## Proposing a change
 
-1. Fais ta modification dans `kit/coach-dashboard-template.html` et, si le schéma `COACH` change, dans `kit/GUIDE-CLAUDE.md` (schéma, guidage et exemples).
-2. Régénère la démo : `python3 -I exemples/build-demo.py`.
-3. Ouvre `exemples/demo.html` dans ton navigateur et parcours les onglets : aucune erreur dans la console.
-4. Ajoute une ligne dans [`CHANGELOG.md`](CHANGELOG.md).
+1. Make your change in `kit/coach-dashboard-template.html` and, if the `COACH` schema changes, in `kit/GUIDE-CLAUDE.md` (schema, guidance and examples).
+2. Regenerate the demo: `python3 -I exemples/build-demo.py`.
+3. Open `exemples/demo.html` in your browser and go through the tabs: no errors in the console.
+4. Add a line to [`CHANGELOG.md`](CHANGELOG.md).
 
-## Principes
+## Principles
 
-- **Aucune donnée personnelle dans le modèle.** Tout ce qui est propre à l'athlète passe par `COACH`. Les onglets facultatifs (Renfo, Jour J, Saison) disparaissent quand leurs données sont absentes.
-- **Le modèle doit survivre à des données manquantes** : une montre sans VFC ne doit pas faire tomber la page.
-- Pas de dépendance externe nouvelle dans la page publiée : seuls les hôtes de scripts autorisés par les artifacts de Claude fonctionnent.
-- `exemples/exemple-coach.json` reste fictif.
+- **No personal data in the template.** Everything specific to the athlete goes through `COACH`. Optional tabs (Strength, Race day, Season) disappear when their data is missing.
+- **The template must survive missing data**: a watch without HRV must not bring the page down.
+- No new external dependency in the published page: only the script hosts allowed by Claude's artifacts work.
+- `exemples/exemple-coach.json` stays fictional.
