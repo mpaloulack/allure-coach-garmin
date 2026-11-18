@@ -1,0 +1,83 @@
+{
+  "version": "v0.0.1-DEV_EDITION_EXPECT_CHANGES",
+  "proxy": {
+    "baseURL": {
+      "$env": "BASE_URL"
+    },
+    "addr": ":8080",
+    "name": "garmin-mcp",
+    "auth": {
+      "kind": "oauth",
+      "issuer": {
+        "$env": "BASE_URL"
+      },
+      "idp": {
+        "provider": "oidc",
+        "clientId": {
+          "$env": "OIDC_CLIENT_ID"
+        },
+        "clientSecret": {
+          "$env": "OIDC_CLIENT_SECRET"
+        },
+        "redirectUri": {
+          "$env": "OIDC_REDIRECT_URI"
+        },
+        "discoveryUrl": {
+          "$env": "OIDC_DISCOVERY_URL"
+        },
+        "scopes": [
+          "openid",
+          "email",
+          "profile"
+        ]
+      },
+      "allowedOrigins": [
+        "https://claude.ai"
+      ],
+      "allowedRedirectUriHosts": [
+        "https://claude.ai"
+      ],
+      "tokenTtl": "1h",
+      "refreshTokenTtl": "720h",
+      "storage": "memory",
+      "jwtSecret": {
+        "$env": "JWT_SECRET"
+      },
+      "encryptionKey": {
+        "$env": "ENCRYPTION_KEY"
+      }
+    },
+    "sessions": {
+      "timeout": "10m",
+      "cleanupInterval": "1m",
+      "maxPerUser": 3
+    }
+  },
+  "mcpServers": {
+    "garmin": {
+      "transportType": "stdio",
+      "command": "/usr/local/bin/garmin-run",
+      "env": {
+        "GARMIN_PERSONAL_API_KEY": {
+          "$userToken": "{{token}}"
+        }
+      },
+      "requiresUserToken": true,
+      "userAuthentication": {
+        "type": "manual",
+        "displayName": "Garmin personal API key",
+        "instructions": "Create your key in Garmin Connect (Settings > Personal API), then paste it here. You can delete it here at any time, then also revoke it on Garmin's site.",
+        "helpUrl": "https://connect.garmin.com/app/settings/personalApiToken",
+        "validation": "^[A-Za-z0-9+/._=-]{32,512}$"
+      },
+      "options": {
+        "toolFilter": {
+          "mode": "block",
+          "list": [
+            "garmin_download_activity"
+          ]
+        }
+      }
+    }
+  }
+}

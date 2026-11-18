@@ -67,3 +67,8 @@ Voir [`SECURITY.md`](SECURITY.md). En bref :
 ## Licence
 
 [MIT](LICENSE), comme le projet d'origine (© ses auteurs). Les marques appartiennent à leurs propriétaires.
+
+## Sur téléphone (sans PC)
+
+Pour des proches sans ordinateur, un connecteur Garmin hébergé est décrit (en anglais) dans
+[`connector/README.md`](connector/README.md).

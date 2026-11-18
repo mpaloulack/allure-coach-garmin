@@ -1,0 +1,13 @@
+--- a/internal/config/load.go
++++ b/internal/config/load.go
+@@ -298,8 +298,8 @@
+ 	}
+ 
+ 	// Domain or org validation - at least one access control mechanism required
+-	if len(oauth.AllowedDomains) == 0 && len(oauth.IDP.AllowedOrgs) == 0 {
+-		return fmt.Errorf("at least one of allowedDomains or idp.allowedOrgs is required")
++	if len(oauth.AllowedDomains) == 0 && len(oauth.IDP.AllowedOrgs) == 0 && os.Getenv("MCP_FRONT_ALLOW_ANY_DOMAIN") != "true" {
++		return fmt.Errorf("at least one of allowedDomains or idp.allowedOrgs is required (or set MCP_FRONT_ALLOW_ANY_DOMAIN=true when the identity provider restricts access)")
+ 	}
+ 
+ 	if err := validateRedirectURIHostPolicy(oauth); err != nil {
