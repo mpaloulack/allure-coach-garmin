@@ -14,3 +14,9 @@ Claude reads your Garmin data, sets your heart-rate zones, builds a plan for you
 - The page has no Garmin access at all: Claude reads Garmin and writes the data into the artifact's database. No GPS track is stored (weather uses your city), all displayed text is escaped, no external fonts. Don't share the dashboard link. See [`SECURITY.md`](SECURITY.md).
 
 License: [MIT](LICENSE).
+
+## Using it from a phone (no PC)
+
+Friends without a computer can use Claude with their Garmin data through a small hosted connector (OAuth sign-in
+through your identity provider, one Garmin personal API key per person, read-only). See
+[`connector/README.md`](connector/README.md). It is a homelab-grade setup; read its limitations first.
