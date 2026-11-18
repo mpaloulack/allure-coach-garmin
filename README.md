@@ -1,74 +1,75 @@
 # allure-coach-garmin
 
-*Coach de course à pied pour **Garmin**, dans Claude. Fork de [allure-coach](https://github.com/Sekiro-kost/allure-coach) (conçu pour COROS).*
+**English** · [Français](README.fr.md)
 
-Un coach qui lit tes données Garmin, cale tes zones cardiaques, construit un plan pour ta course et te monte un dashboard : plan, forme du jour, bilan de chaque séance, progression aérobie, météo, fiche Jour J.
+*A running coach for **Garmin**, inside Claude. Fork of [allure-coach](https://github.com/Sekiro-kost/allure-coach) (built for COROS).*
 
-**Différence avec l'original : tout est en lecture seule.** Rien n'est envoyé sur la montre ni sur ton compte Garmin. Le plan vit dans le dashboard ; si tu veux être guidé au poignet pour une séance, tu la crées toi-même dans Garmin Connect.
+A coach that reads your Garmin data, sets your heart-rate zones, builds a plan for your race and publishes a dashboard: plan, readiness of the day, a review of each session, aerobic progress, weather, race-day sheet.
 
-> **Projet indépendant.** Non affilié à Garmin, COROS ni Anthropic. Ce n'est **pas un avis médical** : les plans sont des propositions à adapter à ton ressenti. En cas de douleur, arrête et consulte un professionnel de santé.
+**Difference from the original: everything is read-only.** Nothing is sent to your watch or to your Garmin account. The plan lives in the dashboard; if you want wrist guidance for a workout, create it yourself in Garmin Connect.
 
-## Essayer sans rien installer
+> **Independent project.** Not affiliated with Garmin, COROS or Anthropic. This is **not medical advice**: the plans are suggestions to adapt to how you feel. If something hurts, stop and see a health professional.
 
-Ouvre [`exemples/demo.html`](exemples/demo.html) dans ton navigateur (télécharge le fichier, puis double-clic). Athlète fictif, aucune donnée lue ni écrite, dates recalées sur la semaine en cours.
+## Try it without installing anything
 
-## Ce que ça fait
+Open [`exemples/demo.html`](exemples/demo.html) in your browser (download the file, then double-click it). Fictional athlete, nothing is read or written, dates are shifted to the current week.
 
-- **Plan sur mesure** : zones sur ta FC au seuil (Friel), allures Daniels, séances variées, polarisation 80/20, affûtage.
-- **Calendrier** : touche une séance pour sa fiche, appui long pour la déplacer ou l'échanger, avec des conseils si l'enchaînement devient risqué.
-- **Forme du jour** : feu vert, orange ou rouge d'après la VFC (avec ta plage normale Garmin), le sommeil, la charge, la disposition à l'entraînement (Training Readiness) et ton ressenti.
-- **Bilan de séance** : prévu contre réalisé à partir des tours de ta montre, avec ta note et la douleur éventuelle.
-- **Progression aérobie** : ton allure à FC fixe, avec l'effet de la chaleur.
-- **Facultatif** : météo (Open-Meteo), renfo, fiche Jour J avec prévision du départ, frise de saison, bilan du dimanche.
+## What it does
 
-## Ce qu'il te faut
+- **Tailored plan**: zones from your threshold heart rate (Friel), Daniels paces, varied sessions, 80/20 polarisation, taper.
+- **Calendar**: tap a session for its sheet, long-press to move or swap it, with advice when the sequence gets risky.
+- **Readiness of the day**: green, orange or red from HRV (against your normal Garmin range), sleep, load, Training Readiness and how you feel.
+- **Session review**: planned versus actual, from your watch's laps, with your rating and any pain.
+- **Aerobic progress**: your pace at a fixed heart rate, with the effect of heat.
+- **Optional**: weather (Open-Meteo), strength work, race-day sheet with a start forecast, season timeline, Sunday review.
 
-- Claude avec l'outil Artifact et sa base de données (ArtifactData) : Claude Code, ou Cowork sur claude.ai.
-- Un **connecteur Garmin** (serveur MCP) qui lit Garmin Connect. Les outils varient selon le connecteur : le guide dit à Claude quoi chercher, pas quels noms utiliser.
-- Facultatif : le connecteur **Open-meteo**.
+## What you need
 
-## Installation
+- Claude with the Artifact tool and its database (ArtifactData): Claude Code, or Cowork on claude.ai.
+- A **Garmin connector** (MCP server) that reads Garmin Connect. Tools differ between connectors: the guide tells Claude what to look for, not which names to use.
+- Optional: the **Open-meteo** connector.
 
-1. Crée un projet dans Claude, par exemple « Course à pied ».
-2. Ajoute les fichiers du dossier [`kit/`](kit) : `GUIDE-CLAUDE.md`, `coach-dashboard-template.html` et `inject-coach.py`.
-3. Écris : **« Lance le kit coach course »**.
-4. Réponds aux questions (course, date, objectif, jours disponibles, ville d'entraînement). Claude te présente tes zones, son diagnostic et le plan, puis publie le dashboard.
-5. Pour actualiser les données : **« mets à jour mon coach »** (ou une tâche planifiée quotidienne).
+## Setup
 
-## Comment ça marche
+1. Create a project in Claude, for example "Running".
+2. Add the files from [`kit/`](kit): `GUIDE-CLAUDE.md`, `coach-dashboard-template.html` and `inject-coach.py`.
+3. Write: **"Lance le kit coach course"** (the guide is in French; Claude answers in your language).
+4. Answer the questions (race, date, goal, days available, training city). Claude shows your zones, its diagnosis and the plan, then publishes the dashboard.
+5. To refresh the data: **"update my coach"** (or a daily scheduled task).
+
+## How it works
 
 ```
-Connecteur Garmin ──(lecture)──> Claude ──(ArtifactData)──> base de l'artifact <──(lecture)── dashboard
-                                                                                   Open-Meteo (météo, ville seulement)
+Garmin connector ──(read)──> Claude ──(ArtifactData)──> artifact database <──(read)── dashboard
+                                                                                  Open-Meteo (weather, city only)
 ```
 
-La page n'a **aucun** accès à Garmin : c'est Claude qui lit Garmin et écrit les données (`sync/latest`, `laps/<date>`) dans la base de l'artifact. La page n'appelle que le connecteur Open-Meteo, avec la position de ta ville. Tout ce qui est propre à l'athlète vit dans l'objet `COACH`, injecté dans le modèle HTML par `inject-coach.py`. Schéma complet : [`kit/GUIDE-CLAUDE.md`](kit/GUIDE-CLAUDE.md), exemple : [`exemples/exemple-coach.json`](exemples/exemple-coach.json).
+The page has **no** access to Garmin: Claude reads Garmin and writes the data (`sync/latest`, `laps/<date>`) into the artifact's database. The page only calls the Open-Meteo connector, with your city's position. Everything specific to the athlete lives in the `COACH` object, injected into the HTML template by `inject-coach.py`. Full schema: [`kit/GUIDE-CLAUDE.md`](kit/GUIDE-CLAUDE.md), example: [`exemples/exemple-coach.json`](exemples/exemple-coach.json).
 
-## Vie privée et sécurité
+## Privacy and security
 
-Voir [`SECURITY.md`](SECURITY.md). En bref :
-- lecture seule sur Garmin, la page elle-même n'y a pas accès ;
-- aucune coordonnée GPS des sorties stockée : la météo utilise la ville (arrondie à environ 10 km) ;
-- tout texte venant des données est échappé avant affichage (un nom d'activité piégé ne peut pas exécuter de code) ;
-- pas de police Google ni d'autre ressource externe au chargement ;
-- le dashboard est privé : **ne partage pas son lien**, il contient tes données de santé.
+See [`SECURITY.md`](SECURITY.md). In short:
+- read-only on Garmin, the page itself has no access to it;
+- no GPS coordinates of your activities are stored: weather uses the city (rounded to about 10 km);
+- all text coming from the data is escaped before display (a booby-trapped activity name cannot run code);
+- no Google font or other external resource at load time;
+- the dashboard is private: **do not share its link**, it contains your health data.
 
-## Différences avec allure-coach
+## Using it from a phone (no PC)
+
+Friends without a computer can use Claude with their Garmin data through a small hosted connector: OAuth sign-in through your own identity provider, one Garmin personal API key per person, read-only. See [`connector/README.md`](connector/README.md). It is a homelab-grade setup, so read its limitations first.
+
+## Differences from allure-coach
 
 | | allure-coach (COROS) | allure-coach-garmin |
 |---|---|---|
-| Envoi du plan sur la montre | oui | non (lecture seule) |
-| Accès de la page à la montre | lecture + écriture COROS | aucun |
-| Mise à jour des données | la page, à l'ouverture | Claude, sur demande ou planifiée |
-| Position pour la météo | départ de chaque sortie (~1 km) | ville fixe (~10 km) |
-| Échappement du texte affiché | non | oui |
-| Polices | Google Fonts | polices système |
+| Sending the plan to the watch | yes | no (read-only) |
+| Page access to the watch | COROS read + write | none |
+| Data refresh | the page, when opened | Claude, on request or scheduled |
+| Weather position | start of each run (~1 km) | fixed city (~10 km) |
+| Escaping of displayed text | no | yes |
+| Fonts | Google Fonts | system fonts |
 
-## Licence
+## License
 
-[MIT](LICENSE), comme le projet d'origine (© ses auteurs). Les marques appartiennent à leurs propriétaires.
-
-## Sur téléphone (sans PC)
-
-Pour des proches sans ordinateur, un connecteur Garmin hébergé est décrit (en anglais) dans
-[`connector/README.md`](connector/README.md).
+[MIT](LICENSE), like the original project (© its authors). Trademarks belong to their owners.
